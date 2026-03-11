@@ -68,11 +68,36 @@ function handleLogin(event) {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
     
-    // Store user data (in real app, this would be API call)
+    console.log('Login attempt:', email); // Debug log
+    
+    // Check for admin credentials
+    if (email === 'admin@jit.ac.in' && password === 'admin123') {
+        console.log('Admin credentials matched!'); // Debug log
+        
+        const userData = {
+            email: email,
+            name: 'Admin User',
+            role: 'admin',
+            isLoggedIn: true
+        };
+        
+        localStorage.setItem('userData', JSON.stringify(userData));
+        console.log('Redirecting to admin-new.html'); // Debug log
+        
+        // Redirect to NEW admin panel
+        window.location.href = 'admin-new.html';
+        return;
+    }
+    
+    console.log('Regular user login'); // Debug log
+    
+    // Regular user login
     const userData = {
         email: email,
-        name: 'Demo User',
+        name: 'Demo Student',
         role: 'student',
+        branch: 'CSE',
+        year: '3rd Year',
         isLoggedIn: true
     };
     

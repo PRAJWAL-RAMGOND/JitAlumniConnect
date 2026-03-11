@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JITConnect - Jobs</title>
+    <link rel="stylesheet" href="ferrari-styles.css">
+    <link rel="stylesheet" href="jobs-styles.css">
+    <link rel="stylesheet" href="chatbot-widget.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="page-jobs">
+    <div class="background-wrapper">
+        <div class="overlay"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <img src="assets/jit-images/JIT-LOGO.png" alt="JIT Logo" class="sidebar-logo-img">
+            <h1 class="sidebar-logo">JITCONNECT</h1>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">
+                            <span>🏠</span> HOME
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explore.html" class="nav-link">
+                            <span>🔍</span> EXPLORE
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="jobs.html" class="nav-link active">
+                            <span>💼</span> JOBS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="messages.html" class="nav-link">
+                            <span>💬</span> MESSAGES
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="chatbot.html" class="nav-link">
+                            <span>🤖</span> ALUMNI MATCHER
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="profile.html" class="nav-link">
+                            <span>👤</span> PROFILE
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="connections.html" class="nav-link">
+                            <span>🤝</span> CONNECTIONS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()">
+                            <span>🚪</span> LOGOUT
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="jobs-main">
+            <!-- Search and Filters -->
+            <div class="jobs-search-section">
+                <div class="search-bar-container">
+                    <input type="text" id="jobSearch" class="job-search-input" placeholder="Search jobs, companies, or keywords...">
+                    <button class="search-btn" onclick="searchJobs()">🔍 Search</button>
+                </div>
+                
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterJobs('all')">All Jobs</button>
+                    <button class="filter-tab" onclick="filterJobs('internship')">Internships</button>
+                    <button class="filter-tab" onclick="filterJobs('fulltime')">Full-Time</button>
+                    <button class="filter-tab" onclick="filterJobs('oncampus')">On-Campus</button>
+                </div>
+            </div>
+
+            <!-- Job Listings -->
+            <div class="jobs-container" id="jobsContainer">
+                <!-- Jobs will be loaded here -->
+            </div>
+        </main>
+
+        <!-- Right Panel -->
+        <aside class="right-panel">
+            <!-- Quick Stats -->
+            <div class="panel-card">
+                <h3>YOUR JOB STATS</h3>
+                <div class="job-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="appliedCount">0</div>
+                        <div class="stat-label">Applied</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="savedCount">0</div>
+                        <div class="stat-label">Saved</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="viewedCount">0</div>
+                        <div class="stat-label">Viewed</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended for You -->
+            <div class="panel-card">
+                <h3>RECOMMENDED FOR YOU</h3>
+                <div id="recommendedJobs" class="recommended-list">
+                    <!-- Recommended jobs will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Career Resources -->
+            <div class="panel-card">
+                <h3>CAREER RESOURCES</h3>
+                <div class="resource-list">
+                    <a href="#" class="resource-item">📄 Resume Templates</a>
+                    <a href="#" class="resource-item">💡 Interview Tips</a>
+                    <a href="#" class="resource-item">🎯 Career Guidance</a>
+                    <a href="#" class="resource-item">📚 Skill Courses</a>
+                </div>
+            </div>
+
+            <!-- Top Companies Hiring -->
+            <div class="panel-card">
+                <h3>TOP COMPANIES HIRING</h3>
+                <div class="company-list">
+                    <div class="company-item">
+                        <div class="company-logo">G</div>
+                        <div class="company-info">
+                            <div class="company-name">Google</div>
+                            <div class="company-jobs">12 openings</div>
+                        </div>
+                    </div>
+                    <div class="company-item">
+                        <div class="company-logo">M</div>
+                        <div class="company-info">
+                            <div class="company-name">Microsoft</div>
+                            <div class="company-jobs">8 openings</div>
+                        </div>
+                    </div>
+                    <div class="company-item">
+                        <div class="company-logo">A</div>
+                        <div class="company-info">
+                            <div class="company-name">Amazon</div>
+                            <div class="company-jobs">15 openings</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="jobs-script.js"></script>
+    <script src="chatbot-widget.js"></script>
+</body>
+</html>

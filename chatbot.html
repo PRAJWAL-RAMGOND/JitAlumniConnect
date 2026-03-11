@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JITConnect - Alumni Matcher</title>
+    <link rel="stylesheet" href="ferrari-styles.css">
+    <link rel="stylesheet" href="chatbot-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="page-chatbot">
+    <div class="background-wrapper">
+        <div class="overlay"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <img src="assets/jit-images/JIT-LOGO.png" alt="JIT Logo" class="sidebar-logo-img">
+            <h1 class="sidebar-logo">JITCONNECT</h1>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">
+                            <span>🏠</span> HOME
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explore.html" class="nav-link">
+                            <span>🔍</span> EXPLORE
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="jobs.html" class="nav-link">
+                            <span>💼</span> JOBS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="messages.html" class="nav-link">
+                            <span>💬</span> MESSAGES
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="chatbot.html" class="nav-link active">
+                            <span>🤖</span> ALUMNI MATCHER
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="profile.html" class="nav-link">
+                            <span>👤</span> PROFILE
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="connections.html" class="nav-link">
+                            <span>🤝</span> CONNECTIONS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()">
+                            <span>🚪</span> LOGOUT
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chatbot-main">
+            <div class="chatbot-container">
+                <div class="chatbot-header">
+                    <div class="chatbot-header-content">
+                        <div class="chatbot-avatar">🤖</div>
+                        <div>
+                            <h2>Alumni Matcher Assistant</h2>
+                            <p class="chatbot-status">Online • Ready to help</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chatbot-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <p>Hi! I'm your Alumni Matcher Assistant. I'll help you connect with alumni based on your interests and career goals.</p>
+                            <p>Let's get started! What are you interested in?</p>
+                            <div class="quick-replies" id="initialOptions">
+                                <button class="quick-reply-btn" onclick="selectInterest('career')">Career Guidance</button>
+                                <button class="quick-reply-btn" onclick="selectInterest('internship')">Internship Advice</button>
+                                <button class="quick-reply-btn" onclick="selectInterest('skills')">Skill Development</button>
+                                <button class="quick-reply-btn" onclick="selectInterest('company')">Company Insights</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chatbot-input-area">
+                    <input 
+                        type="text" 
+                        id="userInput" 
+                        class="chatbot-input" 
+                        placeholder="Type your message..."
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button class="chatbot-send-btn" onclick="sendMessage()">
+                        <span>➤</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Panel - Matched Alumni -->
+        <aside class="right-panel">
+            <div class="panel-card">
+                <h3>MATCHED ALUMNI</h3>
+                <div id="matchedAlumni" class="matched-alumni-list">
+                    <p class="empty-state">Start chatting to find matching alumni!</p>
+                </div>
+            </div>
+
+            <div class="panel-card">
+                <h3>QUICK TIPS</h3>
+                <div class="tips-list">
+                    <div class="tip-item">💡 Be specific about your interests</div>
+                    <div class="tip-item">🎯 Mention your career goals</div>
+                    <div class="tip-item">🏢 Ask about specific companies</div>
+                    <div class="tip-item">📚 Inquire about skills to learn</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="chatbot-script.js"></script>
+</body>
+</html>

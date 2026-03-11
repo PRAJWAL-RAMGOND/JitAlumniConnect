@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chatbot Integration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            color: #333;
+        }
+        .test-section {
+            margin: 20px 0;
+        }
+        h3 {
+            color: #667eea;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 Alumni Matcher - Integration Test</h1>
+
+    <div class="test-card">
+        <h2>Test Authentication Flow</h2>
+        
+        <div class="test-section">
+            <h3>1. Test Student Login</h3>
+            <p>This will simulate a student login and redirect to chatbot</p>
+            <button onclick="testStudentLogin()">Login as Student</button>
+            <div id="studentStatus"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Test Faculty Login (Should Block)</h3>
+            <p>Faculty should not be able to access chatbot</p>
+            <button onclick="testFacultyLogin()">Login as Faculty</button>
+            <div id="facultyStatus"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Test No Login (Should Redirect)</h3>
+            <p>Accessing chatbot without login should redirect to login page</p>
+            <button onclick="testNoLogin()">Clear Login & Try Access</button>
+            <div id="noLoginStatus"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Check Current User Data</h3>
+            <button onclick="checkUserData()">View Current User</button>
+            <div id="userDataDisplay"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. Quick Links</h3>
+            <button onclick="window.location.href='login.html'">Go to Login</button>
+            <button onclick="window.location.href='dashboard.html'">Go to Dashboard</button>
+            <button onclick="window.location.href='chatbot.html'">Go to Chatbot</button>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>Integration Checklist</h2>
+        <div id="checklist">
+            <p>✅ Chatbot authentication implemented</p>
+            <p>✅ Student-only access control</p>
+            <p>✅ Navigation links added to all pages</p>
+            <p>✅ Personalized welcome messages</p>
+            <p>✅ Branch-based matching</p>
+            <p>✅ Logout functionality</p>
+        </div>
+    </div>
+
+    <script>
+        function testStudentLogin() {
+            const userData = {
+                email: "student@jit.ac.in",
+                name: "Test Student",
+                role: "student",
+                branch: "CSE",
+                year: "3rd Year",
+                usn: "1JT19CS001",
+                isLoggedIn: true
+            };
+            
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            const statusDiv = document.getElementById('studentStatus');
+            statusDiv.className = 'status success';
+            statusDiv.innerHTML = `
+                ✅ Student login successful!<br>
+                <strong>Name:</strong> ${userData.name}<br>
+                <strong>Branch:</strong> ${userData.branch}<br>
+                <strong>Role:</strong> ${userData.role}<br>
+                <button onclick="window.location.href='chatbot.html'" style="margin-top: 10px;">
+                    Access Chatbot
+                </button>
+            `;
+        }
+
+        function testFacultyLogin() {
+            const userData = {
+                email: "faculty@jit.ac.in",
+                name: "Dr. Test Faculty",
+                role: "faculty",
+                department: "CSE",
+                designation: "Professor",
+                isLoggedIn: true
+            };
+            
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            const statusDiv = document.getElementById('facultyStatus');
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = `
+                ℹ️ Faculty login successful!<br>
+                <strong>Name:</strong> ${userData.name}<br>
+                <strong>Role:</strong> ${userData.role}<br>
+                <button onclick="window.location.href='chatbot.html'" style="margin-top: 10px;">
+                    Try Access Chatbot (Should Block)
+                </button>
+            `;
+        }
+
+        function testNoLogin() {
+            localStorage.removeItem('userData');
+            
+            const statusDiv = document.getElementById('noLoginStatus');
+            statusDiv.className = 'status error';
+            statusDiv.innerHTML = `
+                ⚠️ User data cleared!<br>
+                <button onclick="window.location.href='chatbot.html'" style="margin-top: 10px;">
+                    Try Access Chatbot (Should Redirect)
+                </button>
+            `;
+        }
+
+        function checkUserData() {
+            const userData = localStorage.getItem('userData');
+            const displayDiv = document.getElementById('userDataDisplay');
+            
+            if (userData) {
+                const user = JSON.parse(userData);
+                displayDiv.className = 'status success';
+                displayDiv.innerHTML = `
+                    <strong>Current User Data:</strong>
+                    <pre>${JSON.stringify(user, null, 2)}</pre>
+                `;
+            } else {
+                displayDiv.className = 'status error';
+                displayDiv.innerHTML = '❌ No user logged in';
+            }
+        }
+
+        // Auto-check on load
+        window.onload = function() {
+            checkUserData();
+        };
+    </script>
+</body>
+</html>

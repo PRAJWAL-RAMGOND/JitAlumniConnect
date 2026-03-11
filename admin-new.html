@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JITConnect - Admin Control Center</title>
+    <link rel="stylesheet" href="admin-new-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    
+    <!-- Admin Top Bar -->
+    <header class="admin-topbar">
+        <div class="topbar-left">
+            <div class="admin-brand">
+                <span class="brand-icon">🛡️</span>
+                <span class="brand-text">JITConnect <span class="admin-badge">ADMIN</span></span>
+            </div>
+        </div>
+        <div class="topbar-center">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search users, posts, reports..." id="globalSearch" onkeyup="globalSearch()">
+            </div>
+        </div>
+        <div class="topbar-right">
+            <button class="topbar-btn" onclick="showNotifications()" title="Notifications">
+                <span>🔔</span>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="topbar-btn" onclick="showQuickActions()" title="Quick Actions">
+                <span>⚡</span>
+            </button>
+            <div class="admin-user-menu">
+                <span class="admin-avatar">A</span>
+                <span class="admin-name">Admin</span>
+            </div>
+            <button class="topbar-btn logout-btn" onclick="adminLogout()" title="Logout">
+                <span>🚪</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">OVERVIEW</div>
+                    <a href="#" class="nav-item active" onclick="showSection('dashboard')">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showSection('announcements')">
+                        <span class="nav-icon">📢</span>
+                        <span class="nav-text">Announcements</span>
+                        <span class="nav-badge">New</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">MODERATION</div>
+                    <a href="#" class="nav-item" onclick="showSection('users')">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">User Management</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showSection('posts')">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-text">Content Moderation</span>
+                        <span class="nav-badge warn">5</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showSection('reports')">
+                        <span class="nav-icon">⚠️</span>
+                        <span class="nav-text">Reports</span>
+                        <span class="nav-badge danger">3</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showSection('flagged')">
+                        <span class="nav-icon">🚩</span>
+                        <span class="nav-text">Flagged Content</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">MANAGEMENT</div>
+                    <a href="#" class="nav-item" onclick="showSection('jobs')">
+                        <span class="nav-icon">💼</span>
+                        <span class="nav-text">Jobs</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showSection('connections')">
+                        <span class="nav-icon">🤝</span>
+                        <span class="nav-text">Connections</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showSection('messages')">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">INSIGHTS</div>
+                    <a href="#" class="nav-item" onclick="showSection('analytics')">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-text">Analytics</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="showSection('logs')">
+                        <span class="nav-icon">📋</span>
+                        <span class="nav-text">Activity Logs</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">SYSTEM</div>
+                    <a href="#" class="nav-item" onclick="showSection('settings')">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="section-header">
+                    <h1>Dashboard Overview</h1>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="refreshDashboard()">
+                            <span>🔄</span> Refresh
+                        </button>
+                        <button class="btn-primary" onclick="showSection('announcements')">
+                            <span>📢</span> Post Announcement
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alert Cards -->
+                <div class="alert-cards">
+                    <div class="alert-card urgent">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <h3>3 Pending Reports</h3>
+                            <p>Requires immediate attention</p>
+                        </div>
+                        <button class="alert-btn" onclick="showSection('reports')">Review</button>
+                    </div>
+                    <div class="alert-card warning">
+                        <div class="alert-icon">🚩</div>
+                        <div class="alert-content">
+                            <h3>5 Flagged Posts</h3>
+                            <p>Awaiting moderation</p>
+                        </div>
+                        <button class="alert-btn" onclick="showSection('flagged')">Moderate</button>
+                    </div>
+                    <div class="alert-card info">
+                        <div class="alert-icon">👥</div>
+                        <div class="alert-content">
+                            <h3>12 Pending Users</h3>
+                            <p>Waiting for approval</p>
+                        </div>
+                        <button class="alert-btn" onclick="showSection('users')">Approve</button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid-modern">
+                    <div class="stat-card-modern">
+                        <div class="stat-header">
+                            <span class="stat-icon blue">👥</span>
+                            <span class="stat-trend up">↑ 12%</span>
+                        </div>
+                        <div class="stat-value" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-footer">
+                            <span class="stat-detail">+45 this month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-modern">
+                        <div class="stat-header">
+                            <span class="stat-icon purple">📝</span>
+                            <span class="stat-trend up">↑ 8%</span>
+                        </div>
+                        <div class="stat-value" id="totalPosts">0</div>
+                        <div class="stat-label">Total Posts</div>
+                        <div class="stat-footer">
+                            <span class="stat-detail">+23 this week</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-modern">
+                        <div class="stat-header">
+                            <span class="stat-icon green">💼</span>
+                            <span class="stat-trend up">↑ 15%</span>
+                        </div>
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Active Jobs</div>
+                        <div class="stat-footer">
+                            <span class="stat-detail">3 posted today</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-modern">
+                        <div class="stat-header">
+                            <span class="stat-icon red">⚠️</span>
+                            <span class="stat-trend down">↓ 5%</span>
+                        </div>
+                        <div class="stat-value" id="pendingReports">3</div>
+                        <div class="stat-label">Pending Reports</div>
+                        <div class="stat-footer">
+                            <span class="stat-detail">Needs attention</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                            <button class="btn-text" onclick="showSection('logs')">View All</button>
+                        </div>
+                        <div id="recentActivity" class="activity-timeline">
+                            <!-- Activity items will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>Quick Stats</h3>
+                        </div>
+                        <div class="quick-stats">
+                            <div class="quick-stat-item">
+                                <span class="quick-stat-label">Active Today</span>
+                                <span class="quick-stat-value">234</span>
+                            </div>
+                            <div class="quick-stat-item">
+                                <span class="quick-stat-label">New Signups</span>
+                                <span class="quick-stat-value">12</span>
+                            </div>
+                            <div class="quick-stat-item">
+                                <span class="quick-stat-label">Posts Today</span>
+                                <span class="quick-stat-value">45</span>
+                            </div>
+                            <div class="quick-stat-item">
+                                <span class="quick-stat-label">Job Applications</span>
+                                <span class="quick-stat-value">67</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Announcements Section -->
+            <section id="announcements-section" class="content-section">
+                <div class="section-header">
+                    <h1>Announcements</h1>
+                    <button class="btn-primary" onclick="showAnnouncementModal()">
+                        <span>➕</span> Create Announcement
+                    </button>
+                </div>
+
+                <div class="content-card">
+                    <div class="announcement-form" id="announcementForm" style="display: none;">
+                        <h3>Create New Announcement</h3>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="announcementTitle" class="form-input" placeholder="Enter announcement title">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="announcementMessage" class="form-textarea" rows="4" placeholder="Enter announcement message"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Audience</label>
+                            <select id="announcementTarget" class="form-select">
+                                <option value="all">All Users</option>
+                                <option value="students">Students Only</option>
+                                <option value="faculty">Faculty Only</option>
+                                <option value="alumni">Alumni Only</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select id="announcementPriority" class="form-select">
+                                <option value="normal">Normal</option>
+                                <option value="important">Important</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-secondary" onclick="hideAnnouncementForm()">Cancel</button>
+                            <button class="btn-primary" onclick="postAnnouncement()">
+                                <span>📢</span> Post Announcement
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="announcementsList" class="announcements-list">
+                        <!-- Announcements will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management Section -->
+            <section id="users-section" class="content-section">
+                <div class="section-header">
+                    <h1>User Management</h1>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="exportUsers()">
+                            <span>📥</span> Export
+                        </button>
+                        <button class="btn-primary" onclick="showAddUserModal()">
+                            <span>➕</span> Add User
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="table-toolbar">
+                        <div class="toolbar-left">
+                            <input type="text" class="search-input-small" placeholder="Search users..." id="userSearch" onkeyup="searchUsers()">
+                            <select class="filter-select-small" id="userRoleFilter" onchange="filterUsers()">
+                                <option value="all">All Roles</option>
+                                <option value="student">Students</option>
+                                <option value="faculty">Faculty</option>
+                                <option value="alumni">Alumni</option>
+                                <option value="department">Departments</option>
+                            </select>
+                            <select class="filter-select-small" id="userStatusFilter" onchange="filterUsers()">
+                                <option value="all">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                                <option value="suspended">Suspended</option>
+                                <option value="banned">Banned</option>
+                            </select>
+                        </div>
+                        <div class="toolbar-right">
+                            <span class="result-count" id="userCount">0 users</span>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" onclick="selectAllUsers(this)"></th>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Branch/Dept</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Moderation Section -->
+            <section id="posts-section" class="content-section">
+                <div class="section-header">
+                    <h1>Content Moderation</h1>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="autoModerate()">
+                            <span>🤖</span> Auto-Moderate
+                        </button>
+                    </div>
+                </div>
+
+                <div class="moderation-filters">
+                    <button class="filter-chip active" onclick="filterPosts('all')">All Posts</button>
+                    <button class="filter-chip" onclick="filterPosts('flagged')">Flagged</button>
+                    <button class="filter-chip" onclick="filterPosts('reported')">Reported</button>
+                    <button class="filter-chip" onclick="filterPosts('pending')">Pending Review</button>
+                </div>
+
+                <div id="postsModeration" class="moderation-grid">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports-section" class="content-section">
+                <div class="section-header">
+                    <h1>Reports & Violations</h1>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="markAllResolved()">
+                            <span>✓</span> Mark All Resolved
+                        </button>
+                    </div>
+                </div>
+
+                <div id="reportsContainer" class="reports-container">
+                    <!-- Reports will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Flagged Content Section -->
+            <section id="flagged-section" class="content-section">
+                <div class="section-header">
+                    <h1>Flagged Content</h1>
+                    <p class="section-subtitle">Content flagged by automated systems or users</p>
+                </div>
+
+                <div id="flaggedContent" class="flagged-grid">
+                    <!-- Flagged content will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Other sections... -->
+            <section id="jobs-section" class="content-section">
+                <div class="section-header">
+                    <h1>Job Management</h1>
+                    <button class="btn-primary" onclick="showAddJobModal()">
+                        <span>➕</span> Post New Job
+                    </button>
+                </div>
+                <div class="content-card">
+                    <p>Job management interface...</p>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics-section" class="content-section">
+                <div class="section-header">
+                    <h1>Analytics & Insights</h1>
+                    <div class="header-actions">
+                        <select class="filter-select-small" id="analyticsTimeRange" onchange="updateAnalytics()">
+                            <option value="today">Today</option>
+                            <option value="week" selected>This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                        <button class="btn-secondary" onclick="exportAnalytics()">
+                            <span>📥</span> Export Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="analytics-metrics">
+                    <div class="metric-card">
+                        <div class="metric-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
+                            <span>👥</span>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="analyticsUsers">1,234</div>
+                            <div class="metric-label">Total Users</div>
+                            <div class="metric-change positive">
+                                <span>↑</span> 12.5% from last week
+                            </div>
+                        </div>
+                        <div class="metric-sparkline">
+                            <canvas id="usersSparkline" width="100" height="30"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <span>📈</span>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="analyticsEngagement">87.3%</div>
+                            <div class="metric-label">Engagement Rate</div>
+                            <div class="metric-change positive">
+                                <span>↑</span> 5.2% from last week
+                            </div>
+                        </div>
+                        <div class="metric-sparkline">
+                            <canvas id="engagementSparkline" width="100" height="30"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            <span>💼</span>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="analyticsJobs">156</div>
+                            <div class="metric-label">Job Applications</div>
+                            <div class="metric-change positive">
+                                <span>↑</span> 23.1% from last week
+                            </div>
+                        </div>
+                        <div class="metric-sparkline">
+                            <canvas id="jobsSparkline" width="100" height="30"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                            <span>🎯</span>
+                        </div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="analyticsConnections">2,847</div>
+                            <div class="metric-label">New Connections</div>
+                            <div class="metric-change positive">
+                                <span>↑</span> 18.7% from last week
+                            </div>
+                        </div>
+                        <div class="metric-sparkline">
+                            <canvas id="connectionsSparkline" width="100" height="30"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>User Growth</h3>
+                            <div class="chart-legend">
+                                <span class="legend-item"><span class="legend-dot" style="background: #3b82f6;"></span> Students</span>
+                                <span class="legend-item"><span class="legend-dot" style="background: #10b981;"></span> Faculty</span>
+                                <span class="legend-item"><span class="legend-dot" style="background: #f59e0b;"></span> Alumni</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="userGrowthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Activity Overview</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>User Distribution by Branch</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="branchChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Top Performing Content</h3>
+                        </div>
+                        <div class="top-content-list">
+                            <div class="top-content-item">
+                                <div class="content-rank">1</div>
+                                <div class="content-details">
+                                    <div class="content-title">Campus Placement Drive 2024</div>
+                                    <div class="content-stats">
+                                        <span>👁️ 1,234 views</span>
+                                        <span>❤️ 456 likes</span>
+                                        <span>💬 89 comments</span>
+                                    </div>
+                                </div>
+                                <div class="content-score">98%</div>
+                            </div>
+                            <div class="top-content-item">
+                                <div class="content-rank">2</div>
+                                <div class="content-details">
+                                    <div class="content-title">Tech Fest Announcement</div>
+                                    <div class="content-stats">
+                                        <span>👁️ 987 views</span>
+                                        <span>❤️ 321 likes</span>
+                                        <span>💬 67 comments</span>
+                                    </div>
+                                </div>
+                                <div class="content-score">94%</div>
+                            </div>
+                            <div class="top-content-item">
+                                <div class="content-rank">3</div>
+                                <div class="content-details">
+                                    <div class="content-title">Alumni Success Stories</div>
+                                    <div class="content-stats">
+                                        <span>👁️ 876 views</span>
+                                        <span>❤️ 298 likes</span>
+                                        <span>💬 54 comments</span>
+                                    </div>
+                                </div>
+                                <div class="content-score">91%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Stats -->
+                <div class="realtime-section">
+                    <div class="section-header">
+                        <h3>Real-time Activity</h3>
+                        <span class="live-indicator">🔴 LIVE</span>
+                    </div>
+                    <div class="realtime-grid">
+                        <div class="realtime-card">
+                            <div class="realtime-number" id="activeNow">234</div>
+                            <div class="realtime-label">Active Users Now</div>
+                        </div>
+                        <div class="realtime-card">
+                            <div class="realtime-number" id="postsToday">45</div>
+                            <div class="realtime-label">Posts Today</div>
+                        </div>
+                        <div class="realtime-card">
+                            <div class="realtime-number" id="applicationsToday">67</div>
+                            <div class="realtime-label">Applications Today</div>
+                        </div>
+                        <div class="realtime-card">
+                            <div class="realtime-number" id="connectionsToday">123</div>
+                            <div class="realtime-label">Connections Today</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activity Logs Section -->
+            <section id="logs-section" class="content-section">
+                <div class="section-header">
+                    <h1>Activity Logs</h1>
+                    <div class="header-actions">
+                        <select class="filter-select-small" id="logTypeFilter" onchange="filterLogs()">
+                            <option value="all">All Activities</option>
+                            <option value="user">User Actions</option>
+                            <option value="post">Posts</option>
+                            <option value="job">Jobs</option>
+                            <option value="report">Reports</option>
+                            <option value="admin">Admin Actions</option>
+                        </select>
+                        <input type="date" class="filter-select-small" id="logDateFilter" onchange="filterLogs()">
+                        <button class="btn-secondary" onclick="exportLogs()">
+                            <span>📥</span> Export Logs
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Log Stats -->
+                <div class="log-stats">
+                    <div class="log-stat-card">
+                        <div class="log-stat-icon" style="background: #dbeafe;">👤</div>
+                        <div class="log-stat-content">
+                            <div class="log-stat-value">1,234</div>
+                            <div class="log-stat-label">User Actions</div>
+                        </div>
+                    </div>
+                    <div class="log-stat-card">
+                        <div class="log-stat-icon" style="background: #d1fae5;">📝</div>
+                        <div class="log-stat-content">
+                            <div class="log-stat-value">567</div>
+                            <div class="log-stat-label">Content Actions</div>
+                        </div>
+                    </div>
+                    <div class="log-stat-card">
+                        <div class="log-stat-icon" style="background: #fef3c7;">⚙️</div>
+                        <div class="log-stat-content">
+                            <div class="log-stat-value">89</div>
+                            <div class="log-stat-label">Admin Actions</div>
+                        </div>
+                    </div>
+                    <div class="log-stat-card">
+                        <div class="log-stat-icon" style="background: #fee2e2;">⚠️</div>
+                        <div class="log-stat-content">
+                            <div class="log-stat-value">12</div>
+                            <div class="log-stat-label">Security Events</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Timeline -->
+                <div class="content-card">
+                    <div class="logs-timeline" id="logsTimeline">
+                        <!-- Logs will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="settings-section" class="content-section">
+                <div class="section-header">
+                    <h1>Platform Settings</h1>
+                </div>
+                <div class="content-card">
+                    <p>Settings interface...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="userActionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">User Actions</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-new-script.js"></script>
+</body>
+</html>
