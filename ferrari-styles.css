@@ -33,7 +33,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background-image: url('/assets/jit-images/campus-main.jpg');
+    background-image: url('assets/jit-images/campus-main.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -41,27 +41,27 @@ body {
 
 /* Different backgrounds for different pages */
 .page-dashboard .background-wrapper {
-    background-image: url('/assets/jit-images/campus-main2.jpeg');
+    background-image: url('assets/jit-images/campus-main2.jpeg');
 }
 
 .page-profile .background-wrapper {
-    background-image: url('/assets/jit-images/campus-main3.jpg');
+    background-image: url('assets/jit-images/campus-main3.jpg');
 }
 
 .page-explore .background-wrapper {
-    background-image: url('/assets/jit-images/campus-main4.jpg');
+    background-image: url('assets/jit-images/campus-main4.jpg');
 }
 
 .page-messages .background-wrapper {
-    background-image: url('/assets/jit-images/Sringeri.jpg');
+    background-image: url('assets/jit-images/Sringeri.jpg');
 }
 
 .page-connections .background-wrapper {
-    background-image: url('/assets/jit-images/campus-main.jpg');
+    background-image: url('assets/jit-images/campus-main.jpg');
 }
 
 .page-login .background-wrapper {
-    background-image: url('/assets/jit-images/campus-main.jpg');
+    background-image: url('assets/jit-images/campus-main.jpg');
 }
 
 @keyframes backgroundPulse {
