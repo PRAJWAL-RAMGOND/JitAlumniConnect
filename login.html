@@ -52,7 +52,18 @@
                         <input type="email" id="regEmail" placeholder="College Email (@jyothyit.ac.in or @jit.ac.in)" required>
                     </div>
                     <div class="input-group">
-                        <input type="password" id="regPassword" placeholder="Password (min 8 characters)" required>
+                        <input type="password" id="regPassword" placeholder="Password (min 8 characters)" required oninput="checkPasswordStrength()">
+                        <div id="passwordStrengthBar" class="password-strength-bar">
+                            <div id="passwordStrengthFill" class="password-strength-fill"></div>
+                        </div>
+                        <div id="passwordStrengthText" class="password-strength-text"></div>
+                        <div id="passwordRequirements" class="password-requirements">
+                            <div id="req-length" class="requirement">✗ At least 8 characters</div>
+                            <div id="req-uppercase" class="requirement">✗ One uppercase letter</div>
+                            <div id="req-lowercase" class="requirement">✗ One lowercase letter</div>
+                            <div id="req-number" class="requirement">✗ One number</div>
+                            <div id="req-special" class="requirement">✗ One special character (!@#$%^&*)</div>
+                        </div>
                     </div>
                     
                     <div class="input-group">

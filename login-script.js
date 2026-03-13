@@ -83,6 +83,55 @@ function handleRoleChange() {
     }
 }
 
+// Password Strength Checker
+function checkPasswordStrength() {
+    const password = document.getElementById('regPassword').value;
+    const strengthBar = document.getElementById('passwordStrengthFill');
+    const strengthText = document.getElementById('passwordStrengthText');
+    
+    // Requirements
+    const requirements = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    };
+    
+    // Update requirement indicators
+    document.getElementById('req-length').classList.toggle('met', requirements.length);
+    document.getElementById('req-uppercase').classList.toggle('met', requirements.uppercase);
+    document.getElementById('req-lowercase').classList.toggle('met', requirements.lowercase);
+    document.getElementById('req-number').classList.toggle('met', requirements.number);
+    document.getElementById('req-special').classList.toggle('met', requirements.special);
+    
+    // Calculate strength
+    const metCount = Object.values(requirements).filter(Boolean).length;
+    let strength = 'weak';
+    let strengthLabel = 'Weak';
+    
+    if (metCount === 5) {
+        strength = 'strong';
+        strengthLabel = '💪 Strong Password';
+    } else if (metCount >= 4) {
+        strength = 'good';
+        strengthLabel = '👍 Good Password';
+    } else if (metCount >= 3) {
+        strength = 'fair';
+        strengthLabel = '⚠️ Fair Password';
+    } else {
+        strength = 'weak';
+        strengthLabel = '❌ Weak Password';
+    }
+    
+    // Update UI
+    strengthBar.className = 'password-strength-fill ' + strength;
+    strengthText.className = 'password-strength-text ' + strength;
+    strengthText.textContent = strengthLabel;
+    
+    return { strength, requirements, metCount };
+}
+
 // Login Handler
 function handleLogin(event) {
     event.preventDefault();
@@ -183,9 +232,15 @@ function handleRegister(event) {
         return;
     }
     
-    // Validate password length
-    if (password.length < 8) {
-        alert('Password must be at least 8 characters long');
+    // Validate password strength
+    const passwordCheck = checkPasswordStrength();
+    if (passwordCheck.metCount < 3) {
+        alert('Password is too weak! Please meet at least 3 requirements:\n' +
+              '• At least 8 characters\n' +
+              '• One uppercase letter\n' +
+              '• One lowercase letter\n' +
+              '• One number\n' +
+              '• One special character');
         return;
     }
     

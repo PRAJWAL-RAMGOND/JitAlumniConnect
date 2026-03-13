@@ -53,6 +53,98 @@
         </main>
     </div>
 
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <span class="modal-close" onclick="closeEditModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm" onsubmit="saveProfile(event)">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Email (Read-only)</label>
+                        <input type="email" id="editEmail" readonly style="background: rgba(0,0,0,0.05); cursor: not-allowed;">
+                    </div>
+                    
+                    <!-- Student Fields -->
+                    <div id="editStudentFields" class="edit-role-fields" style="display: none;">
+                        <div class="input-group">
+                            <label>Branch</label>
+                            <input type="text" id="editBranch">
+                        </div>
+                        <div class="input-group">
+                            <label>Year</label>
+                            <input type="text" id="editYear">
+                        </div>
+                        <div class="input-group">
+                            <label>USN</label>
+                            <input type="text" id="editUsn">
+                        </div>
+                    </div>
+                    
+                    <!-- Faculty Fields -->
+                    <div id="editFacultyFields" class="edit-role-fields" style="display: none;">
+                        <div class="input-group">
+                            <label>Department</label>
+                            <input type="text" id="editDepartment">
+                        </div>
+                        <div class="input-group">
+                            <label>Designation</label>
+                            <input type="text" id="editDesignation">
+                        </div>
+                        <div class="input-group">
+                            <label>Experience (years)</label>
+                            <input type="text" id="editExperience">
+                        </div>
+                    </div>
+                    
+                    <!-- Alumni Fields -->
+                    <div id="editAlumniFields" class="edit-role-fields" style="display: none;">
+                        <div class="input-group">
+                            <label>Batch Year</label>
+                            <input type="text" id="editBatch">
+                        </div>
+                        <div class="input-group">
+                            <label>Branch</label>
+                            <input type="text" id="editAlumniBranch">
+                        </div>
+                        <div class="input-group">
+                            <label>Company</label>
+                            <input type="text" id="editCompany">
+                        </div>
+                        <div class="input-group">
+                            <label>Designation</label>
+                            <input type="text" id="editAlumniDesignation">
+                        </div>
+                    </div>
+                    
+                    <!-- Department Fields -->
+                    <div id="editDepartmentFields" class="edit-role-fields" style="display: none;">
+                        <div class="input-group">
+                            <label>Department Name</label>
+                            <input type="text" id="editDeptName">
+                        </div>
+                        <div class="input-group">
+                            <label>Description</label>
+                            <textarea id="editDeptDescription" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="submit" class="btn-primary" style="flex: 1;">Save Changes</button>
+                        <button type="button" class="btn-secondary" onclick="closeEditModal()" style="flex: 1;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="profile-script.js"></script>
     <script src="chatbot-widget.js"></script>
 </body>
