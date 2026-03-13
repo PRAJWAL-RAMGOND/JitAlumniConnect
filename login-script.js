@@ -111,15 +111,48 @@ function handleLogin(event) {
         return;
     }
     
-    console.log('Regular user login'); // Debug log
+    console.log('Checking registered users'); // Debug log
     
-    // Regular user login
+    // Check if user exists in registered users
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const existingUser = users.find(u => u.email === email && u.password === password);
+    
+    if (existingUser) {
+        console.log('Registered user found:', existingUser.name);
+        
+        // Store complete user data
+        const userData = {
+            email: existingUser.email,
+            name: existingUser.name,
+            role: existingUser.role,
+            branch: existingUser.branch,
+            year: existingUser.year,
+            usn: existingUser.usn,
+            department: existingUser.department,
+            designation: existingUser.designation,
+            experience: existingUser.experience,
+            batch: existingUser.batch,
+            company: existingUser.company,
+            deptName: existingUser.deptName,
+            description: existingUser.description,
+            isLoggedIn: true
+        };
+        
+        localStorage.setItem('userData', JSON.stringify(userData));
+        window.location.href = 'dashboard.html';
+        return;
+    }
+    
+    console.log('No registered user found, using demo data'); // Debug log
+    
+    // Demo user login (for testing without registration)
     const userData = {
         email: email,
         name: 'Demo Student',
         role: 'student',
-        branch: 'CSE',
+        branch: 'Computer Science',
         year: '3rd Year',
+        usn: 'JIT20CS001',
         isLoggedIn: true
     };
     
@@ -153,6 +186,16 @@ function handleRegister(event) {
     // Validate password length
     if (password.length < 8) {
         alert('Password must be at least 8 characters long');
+        return;
+    }
+    
+    // Check if user already exists
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const existingUser = users.find(u => u.email === email);
+    
+    if (existingUser) {
+        alert('An account with this email already exists. Please login instead.');
+        showLogin();
         return;
     }
     
@@ -204,6 +247,7 @@ function handleRegister(event) {
     const userData = {
         name,
         email,
+        password, // In production, this should be hashed
         role,
         ...additionalData,
         isLoggedIn: true,
@@ -211,12 +255,12 @@ function handleRegister(event) {
     };
     
     try {
-        localStorage.setItem('userData', JSON.stringify(userData));
-        
-        // Also save to users list for admin panel
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        // Save to users list for future logins
         users.push(userData);
         localStorage.setItem('users', JSON.stringify(users));
+        
+        // Set as current user
+        localStorage.setItem('userData', JSON.stringify(userData));
         
         alert('Account created successfully! Redirecting to dashboard...');
         window.location.href = 'dashboard.html';

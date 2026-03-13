@@ -4,30 +4,51 @@
 function checkAuth() {
     const userData = localStorage.getItem('userData');
     if (!userData) {
+        console.log('No user data found, redirecting to login');
         window.location.href = 'login.html';
         return null;
     }
-    return JSON.parse(userData);
+    
+    try {
+        const user = JSON.parse(userData);
+        console.log('User data loaded:', user);
+        return user;
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        localStorage.removeItem('userData');
+        window.location.href = 'login.html';
+        return null;
+    }
 }
 
 const currentUser = checkAuth();
 
 // Load user profile
 function loadProfile() {
-    if (!currentUser) return;
+    if (!currentUser) {
+        console.error('No current user found');
+        return;
+    }
     
     console.log('Loading profile for:', currentUser);
     
     // Set profile avatar
     const avatar = document.getElementById('profileAvatar');
     if (avatar) {
-        avatar.textContent = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : '👤';
+        const firstLetter = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : (currentUser.email ? currentUser.email.charAt(0).toUpperCase() : '👤');
+        avatar.textContent = firstLetter;
+        console.log('Avatar set to:', firstLetter);
+    } else {
+        console.error('Avatar element not found');
     }
     
     // Set profile name
     const nameElement = document.getElementById('profileName');
     if (nameElement) {
-        nameElement.textContent = currentUser.name || 'User';
+        nameElement.textContent = currentUser.name || currentUser.email || 'User';
+        console.log('Name set to:', nameElement.textContent);
+    } else {
+        console.error('Name element not found');
     }
     
     // Set profile role
@@ -35,6 +56,9 @@ function loadProfile() {
     if (roleElement) {
         const roleText = currentUser.role ? currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1) : 'Student';
         roleElement.textContent = roleText;
+        console.log('Role set to:', roleText);
+    } else {
+        console.error('Role element not found');
     }
     
     // Set profile details based on role
@@ -62,9 +86,19 @@ function loadProfile() {
         } else if (currentUser.role === 'department') {
             if (currentUser.deptName) details.push(`🏢 ${currentUser.deptName}`);
             if (currentUser.description) details.push(`📝 ${currentUser.description}`);
+        } else if (currentUser.role === 'admin') {
+            details.push(`🔐 Administrator`);
+            details.push(`🎯 Full Access`);
+        }
+        
+        if (details.length === 0) {
+            details.push('Complete your profile to add more details');
         }
         
         detailsElement.innerHTML = details.join(' • ');
+        console.log('Details set:', details);
+    } else {
+        console.error('Details element not found');
     }
     
     // Load user's posts
@@ -133,6 +167,35 @@ function logout() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== PROFILE PAGE DEBUG ===');
     console.log('Profile page loaded');
+    
+    // Check localStorage
+    const userDataRaw = localStorage.getItem('userData');
+    console.log('Raw userData from localStorage:', userDataRaw);
+    
+    if (userDataRaw) {
+        try {
+            const userData = JSON.parse(userDataRaw);
+            console.log('Parsed userData:', userData);
+            console.log('User name:', userData.name);
+            console.log('User email:', userData.email);
+            console.log('User role:', userData.role);
+        } catch (error) {
+            console.error('Error parsing userData:', error);
+        }
+    } else {
+        console.error('No userData found in localStorage!');
+    }
+    
+    // Check if elements exist
+    console.log('profileAvatar element:', document.getElementById('profileAvatar'));
+    console.log('profileName element:', document.getElementById('profileName'));
+    console.log('profileRole element:', document.getElementById('profileRole'));
+    console.log('profileDetails element:', document.getElementById('profileDetails'));
+    console.log('userPostsContainer element:', document.getElementById('userPostsContainer'));
+    
+    console.log('=== END DEBUG ===');
+    
     loadProfile();
 });
