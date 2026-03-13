@@ -57,13 +57,6 @@
                             <div id="passwordStrengthFill" class="password-strength-fill"></div>
                         </div>
                         <div id="passwordStrengthText" class="password-strength-text"></div>
-                        <div id="passwordRequirements" class="password-requirements">
-                            <div id="req-length" class="requirement">✗ At least 8 characters</div>
-                            <div id="req-uppercase" class="requirement">✗ One uppercase letter</div>
-                            <div id="req-lowercase" class="requirement">✗ One lowercase letter</div>
-                            <div id="req-number" class="requirement">✗ One number</div>
-                            <div id="req-special" class="requirement">✗ One special character (!@#$%^&*)</div>
-                        </div>
                     </div>
                     
                     <div class="input-group">
@@ -143,6 +136,56 @@
             document.getElementById('registerForm').style.display = 'none';
             document.getElementById('loginForm').style.display = 'block';
             return false;
+        }
+        
+        // Simple Password Strength Checker
+        function checkPasswordStrength() {
+            const password = document.getElementById('regPassword').value;
+            const strengthBar = document.getElementById('passwordStrengthFill');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            if (!password) {
+                if (strengthBar) strengthBar.className = 'password-strength-fill';
+                if (strengthText) strengthText.textContent = '';
+                return;
+            }
+            
+            // Calculate strength score
+            let score = 0;
+            
+            // Length check
+            if (password.length >= 8) score++;
+            if (password.length >= 12) score++;
+            
+            // Character variety checks
+            if (/[a-z]/.test(password)) score++; // lowercase
+            if (/[A-Z]/.test(password)) score++; // uppercase
+            if (/[0-9]/.test(password)) score++; // numbers
+            if (/[^a-zA-Z0-9]/.test(password)) score++; // special chars
+            
+            // Determine strength level
+            let strength = 'weak';
+            let label = '❌ Weak';
+            
+            if (score >= 6) {
+                strength = 'strong';
+                label = '💪 Strong Password';
+            } else if (score >= 4) {
+                strength = 'good';
+                label = '👍 Good Password';
+            } else if (score >= 2) {
+                strength = 'fair';
+                label = '⚠️ Fair Password';
+            }
+            
+            // Update UI
+            if (strengthBar) {
+                strengthBar.className = 'password-strength-fill ' + strength;
+            }
+            if (strengthText) {
+                strengthText.className = 'password-strength-text ' + strength;
+                strengthText.textContent = label;
+            }
         }
         
         // Ensure forms are in correct state on load

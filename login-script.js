@@ -232,15 +232,9 @@ function handleRegister(event) {
         return;
     }
     
-    // Validate password strength
-    const passwordCheck = checkPasswordStrength();
-    if (passwordCheck.metCount < 3) {
-        alert('Password is too weak! Please meet at least 3 requirements:\n' +
-              '• At least 8 characters\n' +
-              '• One uppercase letter\n' +
-              '• One lowercase letter\n' +
-              '• One number\n' +
-              '• One special character');
+    // Simple password validation - just minimum length
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters long');
         return;
     }
     

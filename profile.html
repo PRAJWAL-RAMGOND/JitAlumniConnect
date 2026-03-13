@@ -146,6 +146,34 @@
     </div>
 
     <script src="profile-script.js"></script>
+    <script src="edit-profile.js"></script>
     <script src="chatbot-widget.js"></script>
+    
+    <!-- Inline fallback for edit profile -->
+    <script>
+        // Ensure functions are available
+        window.addEventListener('load', function() {
+            console.log('Profile page fully loaded');
+            
+            // Verify edit profile functions exist
+            if (typeof window.editProfile === 'function') {
+                console.log('✓ editProfile function available');
+            } else {
+                console.error('✗ editProfile function NOT available');
+            }
+            
+            if (typeof window.closeEditModal === 'function') {
+                console.log('✓ closeEditModal function available');
+            } else {
+                console.error('✗ closeEditModal function NOT available');
+            }
+            
+            if (typeof window.saveProfile === 'function') {
+                console.log('✓ saveProfile function available');
+            } else {
+                console.error('✗ saveProfile function NOT available');
+            }
+        });
+    </script>
 </body>
 </html>
