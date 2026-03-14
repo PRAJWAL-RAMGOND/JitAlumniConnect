@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast Notifications Demo - JITConnect</title>
+    <link rel="stylesheet" href="toast-notifications.css">
+    <script src="toast-notifications.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .demo-section {
+            margin-bottom: 30px;
+        }
+        .demo-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .demo-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        .btn-error {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+        .btn-info {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-loading {
+            background: #8b5cf6;
+            color: white;
+        }
+        .btn-clear {
+            background: #6b7280;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍞 Toast Notifications Demo</h1>
+        <p>Click the buttons below to see different toast notification styles</p>
+
+        <div class="demo-section">
+            <h2>Basic Toasts</h2>
+            <div class="button-grid">
+                <button class="demo-btn btn-success" onclick="showSuccessToast('Success!', 'Operation completed successfully')">
+                    Success Toast
+                </button>
+                <button class="demo-btn btn-error" onclick="showErrorToast('Error!', 'Something went wrong')">
+                    Error Toast
+                </button>
+                <button class="demo-btn btn-warning" onclick="showWarningToast('Warning!', 'Please check your input')">
+                    Warning Toast
+                </button>
+                <button class="demo-btn btn-info" onclick="showInfoToast('Info', 'New updates available')">
+                    Info Toast
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Advanced Toasts</h2>
+            <div class="button-grid">
+                <button class="demo-btn btn-loading" onclick="demoLoading()">
+                    Loading Toast
+                </button>
+                <button class="demo-btn btn-success" onclick="showSuccessToast('Quick!', 'Disappears in 2s', {duration: 2000})">
+                    Quick Toast (2s)
+                </button>
+                <button class="demo-btn btn-info" onclick="showInfoToast('Persistent', 'Click to dismiss', {duration: 0})">
+                    No Auto-Close
+                </button>
+                <button class="demo-btn btn-success" onclick="showSuccessToast('Compact', 'Smaller size', {compact: true})">
+                    Compact Toast
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Real-World Examples</h2>
+            <div class="button-grid">
+                <button class="demo-btn btn-success" onclick="demoLogin()">
+                    Login Success
+                </button>
+                <button class="demo-btn btn-error" onclick="demoFormError()">
+                    Form Validation
+                </button>
+                <button class="demo-btn btn-info" onclick="demoCopy()">
+                    Copy to Clipboard
+                </button>
+                <button class="demo-btn btn-success" onclick="demoSave()">
+                    Save Profile
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Utilities</h2>
+            <div class="button-grid">
+                <button class="demo-btn btn-clear" onclick="removeAllToasts()">
+                    Clear All Toasts
+                </button>
+                <button class="demo-btn btn-info" onclick="demoMultiple()">
+                    Show Multiple
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo functions
+        function demoLoading() {
+            const loadingToast = showLoadingToast('Processing...', 'Please wait');
+            setTimeout(() => {
+                toast.remove(loadingToast);
+                showSuccessToast('Done!', 'Processing completed');
+            }, 3000);
+        }
+
+        function demoLogin() {
+            showSuccessToast('Welcome back!', 'Logged in as John Doe', {duration: 3000});
+        }
+
+        function demoFormError() {
+            showErrorToast('Invalid Email', 'Please enter a valid email address');
+        }
+
+        function demoCopy() {
+            showSuccessToast('Copied!', 'Text copied to clipboard', {duration: 2000, compact: true});
+        }
+
+        function demoSave() {
+            const loadingToast = showLoadingToast('Saving...', 'Updating your profile');
+            setTimeout(() => {
+                toast.remove(loadingToast);
+                showSuccessToast('Saved!', 'Your profile has been updated');
+            }, 2000);
+        }
+
+        function demoMultiple() {
+            showSuccessToast('First', 'This is the first toast');
+            setTimeout(() => showInfoToast('Second', 'This is the second toast'), 500);
+            setTimeout(() => showWarningToast('Third', 'This is the third toast'), 1000);
+        }
+    </script>
+</body>
+</html>
